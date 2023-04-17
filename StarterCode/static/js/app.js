@@ -11,6 +11,13 @@ const barData = [{
   x: sampleValues,
   y: otuIds,
   text: otuLabels,
+  marker:{
+    color: 'rgba(55,128,191,0.7)',
+    line: {
+        color: 'rgba(55,128,191,1.0)',
+        width: 4
+      }
+  },
   type: "bar",
   orientation: "h"
 }];
@@ -29,17 +36,22 @@ const bubbleSize = data.samples[0].sample_values;
 const bubbleColor = data.samples[0].otu_ids;
 const bubbleLabels = data.samples[0].otu_labels;
 
-// Create bubble chart using Plotly
-const bubbleData = [{
-  x: bubbleX,
-  y: bubbleY,
-  text: bubbleLabels,
-  mode: "markers",
-  marker: {
-    size: bubbleSize,
-    color: bubbleColor
-  }
-}];
+  // Create bubble chart using Plotly
+  const bubbleData = [{
+    x: bubbleX,
+    y: bubbleY,
+    text: bubbleLabels,
+    mode: "markers",
+    marker: {
+      size: bubbleSize,
+      color: bubbleColor,
+      colorscale: "Plasma",
+      opacity: 0.8 
+    }
+  }];
+
+  // Update colorscale
+bubbleData[0].marker.colorscale = "Plasma";
 
 const bubbleLayout = {
   title: "Belly Button Biodiversity",
@@ -78,8 +90,9 @@ function optionChanged(sampleId) {
         text: [sample.otu_labels],
         marker: {
             size: sample.sample_values,
-            color: sample.otu_ids
-        }
+            color: sample.otu_ids,
+        colorscale: "Plasma" 
+    }
     });
 
     // Update sample metadata
@@ -107,7 +120,7 @@ function updateGaugeChart(washFreq) {
             mode: "gauge+number",
             gauge: {
                 axis: { range: [null, 9] },
-                bar: { color: "darkblue" },
+                bar: { color: "white" },
                 steps: [
                     { range: [0, 1], color: "rgb(248, 243, 236)" },
                     { range: [1, 2], color: "rgb(244, 241, 229)" },
@@ -118,7 +131,13 @@ function updateGaugeChart(washFreq) {
                     { range: [6, 7], color: "rgb(140, 191, 136)" },
                     { range: [7, 8], color: "rgb(138, 187, 143)" },
                     { range: [8, 9], color: "rgb(133, 180, 138)" }
-                ]
+                ],
+                shape: "needle",
+                threshold: {
+                    line: { color: "red", width: 6 },
+                    thickness: 0.75,
+                    value: washFreq
+                },
             }
         }
     ];
