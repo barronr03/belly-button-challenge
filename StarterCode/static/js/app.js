@@ -45,13 +45,10 @@ const bubbleLabels = data.samples[0].otu_labels;
     marker: {
       size: bubbleSize,
       color: bubbleColor,
-      colorscale: "Plasma",
+      colorscale: "Jet",
       opacity: 0.8 
     }
   }];
-
-  // Update colorscale
-bubbleData[0].marker.colorscale = "Plasma";
 
 const bubbleLayout = {
   title: "Belly Button Biodiversity",
@@ -91,7 +88,7 @@ function optionChanged(sampleId) {
         marker: {
             size: sample.sample_values,
             color: sample.otu_ids,
-        colorscale: "Plasma" 
+        colorscale: "Jet" 
     }
     });
 
